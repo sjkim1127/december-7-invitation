@@ -91,13 +91,11 @@ h1 strong { color: var(--wine); font-weight: inherit; }
 .primary span { margin-inline-start: .35rem; }
 .secondary { color: var(--wine-dark); background: transparent; border-color: #b9858d; }
 .secondary:hover { background: #f4d7d7; border-color: var(--wine); }
-.button:focus-visible, input:focus-visible { outline: 2px solid var(--wine-dark); outline-offset: 3px; }
+a.button { display: inline-flex; align-items: center; text-decoration: none; }
+.button:focus-visible { outline: 2px solid var(--wine-dark); outline-offset: 3px; }
 .response p { margin: 0 0 .65rem; }
 .response-title { font-size: 1.2rem; font-weight: 750; color: var(--wine-dark); }
 .response .choices { margin-top: .9rem; }
-.response .copy-status { margin-top: .65rem; color: var(--wine-dark); }
-.copy-status:empty { display: none; }
-#reply-text { width: 100%; max-width: 24rem; padding: .6rem; color: var(--ink); font: inherit; }
 .postcard {
   position: relative;
   width: min(100%, 24rem);

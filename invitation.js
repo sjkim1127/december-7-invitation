@@ -8,10 +8,6 @@ let dodgeAnimation;
 const escapeSlot = document.querySelector('.escape-slot');
 const response = document.querySelector('#response');
 const title = document.querySelector('#response-title');
-const note = document.querySelector('#response-note');
-const replyText = document.querySelector('#reply-text');
-const copy = document.querySelector('#copy');
-const status = document.querySelector('#copy-status');
 const hearts = document.querySelector('#hearts');
 
 function celebrate() {
@@ -105,30 +101,13 @@ window.visualViewport?.addEventListener('resize', resetDecline);
 window.visualViewport?.addEventListener('scroll', resetDecline, { passive: true });
 
 accept.addEventListener('click', () => {
-  title.textContent = '좋아, 그날 보자!';
-  note.textContent = '답장을 복사해서 보낸 사람에게 보내줘.';
-  replyText.value = '오키! 12월 7일에 데이트하자 ♡ 시간하고 장소는 같이 정하자!';
   choices.hidden = true;
   response.hidden = false;
   title.focus({ preventScroll: true });
   celebrate();
 });
 
-copy.addEventListener('click', async () => {
-  try {
-    await navigator.clipboard.writeText(replyText.value);
-    status.textContent = '복사했어! 메시지에 붙여넣으면 돼.';
-  } catch {
-    replyText.hidden = false;
-    replyText.focus();
-    replyText.select();
-    status.textContent = '선택한 문구를 직접 복사해 줘.';
-  }
-});
-
 document.querySelector('#reset').addEventListener('click', () => {
-  status.textContent = '';
-  replyText.hidden = true;
   response.hidden = true;
   resetDecline();
   choices.hidden = false;

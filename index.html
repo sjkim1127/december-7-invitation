@@ -33,17 +33,15 @@
             <span class="escape-slot"><button class="button secondary" id="decline" type="button" aria-disabled="true" tabindex="-1"><span class="decline-face">ㄴㄴ</span></button></span>
           </div>
           <div class="response" id="response" hidden>
-            <p class="response-title" id="response-title" tabindex="-1"></p>
-            <p id="response-note"></p>
-            <input id="reply-text" type="text" readonly aria-label="보낼 답장" hidden>
+            <p class="response-title" id="response-title" tabindex="-1">좋아, 그날 보자!</p>
+            <p><time datetime="2026-12-07">12월 7일 월요일</time> · 종일</p>
             <div class="choices">
-              <button class="button primary" id="copy" type="button">답장 복사하기</button>
+              <a class="button primary" href="date.ics" type="text/calendar">캘린더에 추가</a>
               <button class="button secondary" id="reset" type="button">다시 고르기</button>
             </div>
-            <p class="copy-status" id="copy-status" role="status"></p>
           </div>
         </div>
-        <noscript><p class="note">가능하면 메시지로 알려줘!</p></noscript>
+        <noscript><a class="button primary" href="date.ics" type="text/calendar">캘린더에 추가</a></noscript>
       </section>
 
       <figure class="postcard">
