@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8e9e6">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="12월 7일, 너에게 보내는 데이트 초대장">
+  <meta property="og:title" content="12월 7일에 데이트하쉴?">
+  <meta property="og:description" content="따뜻한 거 한 잔 들고, 같이 걷고 싶어.">
+  <meta property="og:image" content="https://sjkim1127.github.io/december-7-invitation/assets/winter-cafe.jpg">
+  <title>12월 7일에 데이트하쉴?</title>
+  <link rel="preload" href="assets/winter-cafe.jpg" as="image">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="invitation.js"></script>
+</head>
+<body>
+  <main class="invitation">
+    <header class="masthead">
+      <span class="masthead-title"><span aria-hidden="true">♡</span> 너에게 보내는 초대장</span>
+      <time datetime="2026-12-07" class="masthead-date">2026. 12. 07</time>
+    </header>
+
+    <div class="spread">
+      <section class="letter" aria-labelledby="invitation-title">
+        <p class="date-label"><span aria-hidden="true">✧</span> <time datetime="2026-12-07">12월 7일 월요일</time></p>
+        <h1 id="invitation-title"><span>12월 7일에</span> <strong>데이트하쉴?</strong></h1>
+        <p class="note">따뜻한 거 한 잔 들고,<br>너랑 같이 걷고 싶어.</p>
+
+        <div class="reply" id="reply" hidden>
+          <div class="choices" id="choices">
+            <button class="button primary" type="button" data-reply="yes">좋아! <span aria-hidden="true">♥</span></button>
+            <button class="button secondary" type="button" data-reply="later">다른 날은 어때?</button>
+          </div>
+          <div class="response" id="response" hidden>
+            <p class="response-title" id="response-title" tabindex="-1"></p>
+            <p id="response-note"></p>
+            <input id="reply-text" type="text" readonly aria-label="보낼 답장" hidden>
+            <div class="choices">
+              <button class="button primary" id="copy" type="button">답장 복사하기</button>
+              <button class="button secondary" id="reset" type="button">다시 고르기</button>
+            </div>
+            <p class="copy-status" id="copy-status" role="status"></p>
+          </div>
+        </div>
+        <noscript><p class="note">가능하면 메시지로 알려줘!</p></noscript>
+      </section>
+
+      <figure class="postcard">
+        <div class="tape" aria-hidden="true"></div>
+        <img src="assets/winter-cafe.jpg" width="960" height="1200" alt="눈이 살짝 쌓인 카페 창가에 나란히 놓인 두 잔의 커피" fetchpriority="high">
+        <figcaption><span>December, together.</span><span aria-hidden="true">♡</span></figcaption>
+      </figure>
+    </div>
+  </main>
+  <div id="hearts" class="hearts" aria-hidden="true"></div>
+</body>
+</html>
