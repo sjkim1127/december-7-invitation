@@ -160,5 +160,20 @@ h1 strong { color: var(--wine); font-weight: inherit; }
   position: relative;
   z-index: 2;
   min-width: 4.65rem;
-  touch-action: none;
+  touch-action: manipulation;
+  display: grid;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.decline-face {
+  display: grid;
+  place-items: center;
+  border: 1px solid #b9858d;
+  border-radius: inherit;
+  background: #f8e9e6;
+  pointer-events: none;
+}
+#decline[data-dodging] .decline-face {
+  box-shadow: 0 .35rem .95rem #5d293229;
 }
