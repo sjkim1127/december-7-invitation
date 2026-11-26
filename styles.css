@@ -119,7 +119,7 @@ h1 strong { color: var(--wine); font-weight: inherit; }
   background: repeating-linear-gradient(95deg, #e4ae8ca6 0 3px, #ebbd9ca6 3px 6px);
   clip-path: polygon(0 0, 100% 3%, 97% 26%, 100% 45%, 98% 65%, 100% 100%, 0 100%, 3% 74%, 0 55%, 3% 32%);
 }
-.postcard img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; background: #65444a; }
+.postcard img { display: block; width: 100%; height: auto; background: #dfd8ce; }
 .postcard figcaption {
   display: flex;
   justify-content: space-between;
