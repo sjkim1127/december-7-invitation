@@ -1,5 +1,8 @@
 const reply = document.querySelector('#reply');
 const choices = document.querySelector('#choices');
+const accept = document.querySelector('#accept');
+const decline = document.querySelector('#decline');
+const escapeSlot = document.querySelector('.escape-slot');
 const response = document.querySelector('#response');
 const title = document.querySelector('#response-title');
 const note = document.querySelector('#response-note');
@@ -7,19 +10,6 @@ const replyText = document.querySelector('#reply-text');
 const copy = document.querySelector('#copy');
 const status = document.querySelector('#copy-status');
 const hearts = document.querySelector('#hearts');
-
-const replies = {
-  yes: {
-    title: '좋아, 그날 보자!',
-    note: '답장을 복사해서 보낸 사람에게 보내줘.',
-    text: '좋아! 12월 7일에 데이트하자 ♡ 시간하고 장소는 같이 정하자!',
-  },
-  later: {
-    title: '좋아, 우리 다른 날 보자!',
-    note: '가능한 날을 답장에 덧붙여 보내줘.',
-    text: '12월 7일 말고 다른 날은 어때? 우리 같이 날짜 정하자!',
-  },
-};
 
 function celebrate() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -35,18 +25,64 @@ function celebrate() {
   }
 }
 
-for (const button of choices.querySelectorAll('[data-reply]')) {
-  button.addEventListener('click', () => {
-    const choice = button.dataset.reply;
-    title.textContent = replies[choice].title;
-    note.textContent = replies[choice].note;
-    replyText.value = replies[choice].text;
-    choices.hidden = true;
-    response.hidden = false;
-    title.focus({ preventScroll: true });
-    if (choice === 'yes') celebrate();
+function dodge(event) {
+  const pointer = { x: event.clientX, y: event.clientY };
+  const slot = escapeSlot.getBoundingClientRect();
+  const current = decline.getBoundingClientRect();
+  const yes = accept.getBoundingClientRect();
+  const margin = 16;
+  const right = Math.max(margin, document.documentElement.clientWidth - slot.width - margin);
+  const bottom = Math.max(margin, window.innerHeight - slot.height - margin);
+  const middle = (margin + right) / 2;
+  const center = (margin + bottom) / 2;
+  const candidates = [
+    [margin, margin], [right, margin],
+    [margin, bottom], [right, bottom],
+    [middle, margin], [middle, bottom],
+    [margin, center], [right, center],
+  ];
+
+  const distance = ([x, y]) => Math.hypot(x + slot.width / 2 - pointer.x, y + slot.height / 2 - pointer.y);
+  const openSpots = candidates.filter(([x, y]) => {
+    const coversYes = x < yes.right + 8 && x + slot.width > yes.left - 8
+      && y < yes.bottom + 8 && y + slot.height > yes.top - 8;
+    const stillHere = Math.hypot(x - current.left, y - current.top) < slot.width;
+    return !coversYes && !stillHere;
+  });
+  const [x, y] = (openSpots.length ? openSpots : candidates)
+    .sort((first, second) => distance(second) - distance(first))[0];
+
+  decline.style.translate = `${x - slot.left}px ${y - slot.top}px`;
+}
+
+function resetDecline() {
+  decline.style.translate = '';
+}
+
+decline.addEventListener('pointerenter', (event) => {
+  if (event.pointerType !== 'touch') dodge(event);
+});
+for (const eventName of ['pointerdown', 'click']) {
+  decline.addEventListener(eventName, (event) => {
+    event.preventDefault();
+    dodge(event);
   });
 }
+decline.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' || event.key === ' ') event.preventDefault();
+});
+window.addEventListener('resize', resetDecline);
+window.addEventListener('scroll', resetDecline, { passive: true });
+
+accept.addEventListener('click', () => {
+  title.textContent = '좋아, 그날 보자!';
+  note.textContent = '답장을 복사해서 보낸 사람에게 보내줘.';
+  replyText.value = '오키! 12월 7일에 데이트하자 ♡ 시간하고 장소는 같이 정하자!';
+  choices.hidden = true;
+  response.hidden = false;
+  title.focus({ preventScroll: true });
+  celebrate();
+});
 
 copy.addEventListener('click', async () => {
   try {
@@ -64,8 +100,9 @@ document.querySelector('#reset').addEventListener('click', () => {
   status.textContent = '';
   replyText.hidden = true;
   response.hidden = true;
+  resetDecline();
   choices.hidden = false;
-  choices.querySelector('button').focus({ preventScroll: true });
+  accept.focus({ preventScroll: true });
 });
 
 reply.hidden = false;

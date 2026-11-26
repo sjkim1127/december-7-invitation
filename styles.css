@@ -155,3 +155,10 @@ h1 strong { color: var(--wine); font-weight: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+.escape-slot { display: inline-flex; }
+#decline {
+  position: relative;
+  z-index: 2;
+  min-width: 4.65rem;
+  touch-action: none;
+}

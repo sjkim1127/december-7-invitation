@@ -6,10 +6,10 @@
   <meta name="theme-color" content="#f8e9e6">
   <meta name="robots" content="noindex">
   <meta name="description" content="12월 7일, 너에게 보내는 데이트 초대장">
-  <meta property="og:title" content="12월 7일에 데이트하쉴?">
+  <meta property="og:title" content="12월 7일에 데이트 하쉴?">
   <meta property="og:description" content="따뜻한 거 한 잔 들고, 같이 걷고 싶어.">
   <meta property="og:image" content="https://sjkim1127.github.io/december-7-invitation/assets/winter-cafe.jpg">
-  <title>12월 7일에 데이트하쉴?</title>
+  <title>12월 7일에 데이트 하쉴?</title>
   <link rel="preload" href="assets/winter-cafe.jpg" as="image">
   <link rel="stylesheet" href="styles.css">
   <script defer src="invitation.js"></script>
@@ -24,13 +24,13 @@
     <div class="spread">
       <section class="letter" aria-labelledby="invitation-title">
         <p class="date-label"><span aria-hidden="true">✧</span> <time datetime="2026-12-07">12월 7일 월요일</time></p>
-        <h1 id="invitation-title"><span>12월 7일에</span> <strong>데이트하쉴?</strong></h1>
+        <h1 id="invitation-title"><span>12월 7일에</span> <strong>데이트 하쉴?</strong></h1>
         <p class="note">따뜻한 거 한 잔 들고,<br>너랑 같이 걷고 싶어.</p>
 
         <div class="reply" id="reply" hidden>
           <div class="choices" id="choices">
-            <button class="button primary" type="button" data-reply="yes">좋아! <span aria-hidden="true">♥</span></button>
-            <button class="button secondary" type="button" data-reply="later">다른 날은 어때?</button>
+            <button class="button primary" id="accept" type="button">오키 <span aria-hidden="true">♥</span></button>
+            <span class="escape-slot"><button class="button secondary" id="decline" type="button" aria-disabled="true" tabindex="-1">ㄴㄴ</button></span>
           </div>
           <div class="response" id="response" hidden>
             <p class="response-title" id="response-title" tabindex="-1"></p>
