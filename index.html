@@ -11,7 +11,7 @@
   <meta property="og:image" content="https://sjkim1127.github.io/december-7-invitation/assets/snow-cat.png">
   <title>12월 7일에 데이트 하쉴?</title>
   <link rel="preload" href="assets/snow-cat.png" as="image">
-  <link rel="stylesheet" href="styles.css?v=nested">
+  <link rel="stylesheet" href="styles.css?v=calendar-links">
   <script defer src="invitation.js?v=nested"></script>
 </head>
 <body>
@@ -33,14 +33,19 @@
             <span class="escape-slot"><button class="button secondary" id="decline" type="button" aria-disabled="true" tabindex="-1"><span class="decline-face">ㄴㄴ</span></button></span>
           </div>
           <div class="response" id="response" hidden>
-            <p><time datetime="2026-12-07">12월 7일 월요일</time> · 종일</p>
+            <p><strong>성주랑 데이트</strong><br><time datetime="2026-12-07">12월 7일 월요일</time> · 종일</p>
             <div class="choices">
-              <a class="button primary" id="add-to-calendar" href="date.ics?v=title-2" type="text/calendar">캘린더에 추가</a>
+              <a class="button primary" id="add-to-calendar" href="date.ics" type="text/calendar">캘린더에 추가</a>
               <button class="button secondary" id="reset" type="button">다시 고르기</button>
             </div>
+            <p class="calendar-help">메신저 안에서 일정이 열리지 않으면 Safari에서 초대장을 열어 주세요.</p>
+            <p><a class="calendar-fallback" href="webcal://sjkim1127.github.io/december-7-invitation/date.ics">Apple 캘린더에서 이 일정 구독하기</a></p>
           </div>
         </div>
-        <noscript><a class="button primary" href="date.ics?v=title-2" type="text/calendar">캘린더에 추가</a></noscript>
+        <noscript>
+          <a class="button primary" href="date.ics" type="text/calendar">캘린더에 추가</a>
+          <p><a class="calendar-fallback" href="webcal://sjkim1127.github.io/december-7-invitation/date.ics">Apple 캘린더에서 이 일정 구독하기</a></p>
+        </noscript>
       </section>
 
       <figure class="postcard">

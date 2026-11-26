@@ -95,6 +95,16 @@ a.button { display: inline-flex; align-items: center; text-decoration: none; }
 .button:focus-visible { outline: 2px solid var(--wine-dark); outline-offset: 3px; }
 .response p { margin: 0 0 .65rem; }
 .response .choices { margin-top: .9rem; }
+.response .calendar-help { margin: 1rem 0 .35rem; color: var(--muted); }
+.calendar-fallback {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--wine-dark);
+  font-weight: 700;
+  text-underline-offset: .19em;
+}
+.calendar-fallback:focus-visible { outline: 2px solid var(--wine-dark); outline-offset: 3px; }
 .postcard {
   position: relative;
   width: min(100%, 24rem);
