@@ -5,6 +5,7 @@ const decline = document.querySelector('#decline');
 const declineFace = document.querySelector('.decline-face');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let dodgeAnimation;
+let hoverReadyAt = 0;
 const escapeSlot = document.querySelector('.escape-slot');
 const response = document.querySelector('#response');
 const addToCalendar = document.querySelector('#add-to-calendar');
@@ -24,69 +25,87 @@ function celebrate() {
   }
 }
 
-function dodge(event) {
-  const pointer = { x: event.clientX, y: event.clientY };
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function dodge(event, current = decline.getBoundingClientRect()) {
   const slot = escapeSlot.getBoundingClientRect();
-  const current = decline.getBoundingClientRect();
   const yes = accept.getBoundingClientRect();
   const viewport = window.visualViewport;
   const width = viewport?.width ?? document.documentElement.clientWidth;
   const height = viewport?.height ?? window.innerHeight;
   const margin = Math.min(16, width * .04, height * .04);
   const left = (viewport?.offsetLeft ?? 0) + margin;
-  const top = (viewport?.offsetTop ?? 0) + Math.min(72, height * .13);
+  const top = (viewport?.offsetTop ?? 0) + Math.min(64, height * .12);
   const right = Math.max(left, left + width - slot.width - margin * 2);
   const bottom = Math.max(top, (viewport?.offsetTop ?? 0) + height - slot.height - margin);
-  const middle = (left + right) / 2;
-  const center = (top + bottom) / 2;
-  const candidates = [
-    [left, top], [right, top],
-    [left, bottom], [right, bottom],
-    [middle, top], [middle, bottom],
-    [left, center], [right, center],
-  ];
-
-  const distance = ([x, y]) => Math.hypot(x + slot.width / 2 - pointer.x, y + slot.height / 2 - pointer.y);
-  const openSpots = candidates.filter(([x, y]) => {
+  const centerX = current.left + slot.width / 2;
+  const centerY = current.top + slot.height / 2;
+  const away = Math.atan2(centerY - event.clientY, centerX - event.clientX);
+  const direction = away + (Math.random() - .5) * .9;
+  const travel = clamp(Math.min(width, height) * .28, 92, 210) * (.82 + Math.random() * .44);
+  const turns = [0, .55, -.55, 1.05, -1.05, 1.65, -1.65, 2.3, -2.3, Math.PI];
+  const nearby = turns.map((turn) => [
+    clamp(current.left + Math.cos(direction + turn) * travel, left, right),
+    clamp(current.top + Math.sin(direction + turn) * travel, top, bottom),
+  ]);
+  const corners = [[left, top], [right, top], [left, bottom], [right, bottom]];
+  const destination = [...nearby, ...corners].find(([x, y]) => {
     const coversYes = x < yes.right + 8 && x + slot.width > yes.left - 8
       && y < yes.bottom + 8 && y + slot.height > yes.top - 8;
-    const stillHere = Math.hypot(x - current.left, y - current.top) < slot.width;
-    return !coversYes && !stillHere;
+    const nearPointer = event.clientX > x - 30 && event.clientX < x + slot.width + 30
+      && event.clientY > y - 30 && event.clientY < y + slot.height + 30;
+    return !coversYes && !nearPointer && Math.hypot(x - current.left, y - current.top) > 55;
   });
-  const [x, y] = (openSpots.length ? openSpots : candidates)
-    .sort((first, second) => distance(second) - distance(first))[0];
+  if (!destination) return;
 
+  const [x, y] = destination;
   const from = declineFace.getBoundingClientRect();
   dodgeAnimation?.cancel();
-  // Move the hit target first so the pointer cannot catch the moving label.
+  // The interactive area moves immediately while the label follows the curve.
   decline.style.translate = `${x - slot.left}px ${y - slot.top}px`;
   decline.dataset.dodging = '';
+  hoverReadyAt = performance.now() + 110;
   if (reducedMotion.matches) return;
 
-  const offsetX = from.left - x;
-  const offsetY = from.top - y;
-  const tilt = offsetX > 0 ? -10 : 10;
-  const lift = Math.min(24, Math.max(from.top, y) - (viewport?.offsetTop ?? 0));
-  dodgeAnimation = declineFace.animate([
-    { transform: `translate(${offsetX}px, ${offsetY}px)` },
-    { transform: `translate(${offsetX * .48}px, ${offsetY * .48 - lift}px) rotate(${tilt}deg) scale(1.06)`, offset: .52 },
-    { transform: `rotate(${-tilt / 3}deg) scale(1.02)`, offset: .87 },
-    { transform: 'none' },
-  ], {
-    duration: Math.min(470, 285 + Math.hypot(offsetX, offsetY) * .26),
-    easing: 'cubic-bezier(.22, .7, .26, 1)',
+  const dx = x - from.left;
+  const dy = y - from.top;
+  const distance = Math.hypot(dx, dy);
+  const bend = Math.random() < .5 ? -.38 : .38;
+  const controlX = clamp(from.left + dx * .5 - dy * bend, left, right);
+  const controlY = clamp(from.top + dy * .5 + dx * bend, (viewport?.offsetTop ?? 0) + margin, bottom);
+  const frames = Array.from({ length: 9 }, (_, index) => {
+    const t = index / 8;
+    const s = 1 - t;
+    const frameX = s * s * from.left + 2 * s * t * controlX + t * t * x;
+    const frameY = s * s * from.top + 2 * s * t * controlY + t * t * y;
+    const tilt = Math.sign(dx) * Math.sin(Math.PI * t) * 7;
+    return { transform: `translate(${frameX - x}px, ${frameY - y}px) rotate(${tilt}deg)` };
+  });
+  const duration = clamp(320 + distance * .6, 380, 560);
+  hoverReadyAt = performance.now() + duration * .8;
+  dodgeAnimation = declineFace.animate(frames, {
+    duration,
+    easing: 'cubic-bezier(.18, .7, .25, 1)',
   });
 }
 
 function resetDecline() {
   dodgeAnimation?.cancel();
+  hoverReadyAt = 0;
   decline.style.translate = '';
   delete decline.dataset.dodging;
 }
 
-decline.addEventListener('pointerenter', (event) => {
-  if (event.pointerType !== 'touch') dodge(event);
-});
+window.addEventListener('pointermove', (event) => {
+  if (event.pointerType === 'touch' || choices.hidden || performance.now() < hoverReadyAt) return;
+  const current = decline.getBoundingClientRect();
+  const proximity = reducedMotion.matches ? 0 : 25;
+  const near = event.clientX >= current.left - proximity && event.clientX <= current.right + proximity
+    && event.clientY >= current.top - proximity && event.clientY <= current.bottom + proximity;
+  if (near) dodge(event, current);
+}, { passive: true });
 decline.addEventListener('pointerdown', (event) => {
   event.preventDefault();
   dodge(event);
