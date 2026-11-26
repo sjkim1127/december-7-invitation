@@ -103,7 +103,7 @@ h1 strong { color: var(--wine); font-weight: inherit; }
   width: min(100%, 24rem);
   justify-self: center;
   margin: 0;
-  padding: .8rem .8rem .6rem;
+  padding: .8rem;
   transform: rotate(4deg);
   background: #fff8ed;
   box-shadow: 0 1.4rem 2.5rem #5d29322b, 0 2px 6px #5d293226;
@@ -120,15 +120,6 @@ h1 strong { color: var(--wine); font-weight: inherit; }
   clip-path: polygon(0 0, 100% 3%, 97% 26%, 100% 45%, 98% 65%, 100% 100%, 0 100%, 3% 74%, 0 55%, 3% 32%);
 }
 .postcard img { display: block; width: 100%; height: auto; background: #dfd8ce; }
-.postcard figcaption {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: .55rem .25rem 0;
-  color: var(--wine-dark);
-  font: italic 1.23rem Georgia, serif;
-}
-.postcard figcaption span:last-child { font: 1.65rem Georgia, serif; }
 .hearts { position: fixed; inset: 0; pointer-events: none; overflow: clip; }
 .hearts span {
   position: absolute;
