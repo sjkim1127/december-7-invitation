@@ -143,11 +143,19 @@ a.button { display: inline-flex; align-items: center; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
-.escape-slot { display: inline-flex; }
+.escape-slot {
+  --doll-width: 7rem;
+  --doll-height: 3.25rem;
+  display: inline-flex;
+  width: var(--doll-width);
+  height: var(--doll-height);
+}
 #decline {
   position: relative;
   z-index: 2;
-  min-width: 4.65rem;
+  width: calc(var(--doll-width) * var(--layer-size, 1));
+  height: calc(var(--doll-height) * var(--layer-size, 1));
+  min-height: 0;
   touch-action: manipulation;
   display: grid;
   padding: 0;
@@ -158,10 +166,25 @@ a.button { display: inline-flex; align-items: center; text-decoration: none; }
   display: grid;
   place-items: center;
   border: 1px solid #b9858d;
-  border-radius: inherit;
+  border-radius: 99px;
+  color: var(--wine-dark);
   background: #f8e9e6;
+  box-shadow: inset 0 0 0 3px #f8e9e6, inset 0 0 0 4px #ddbac0;
+  white-space: nowrap;
   pointer-events: none;
 }
-#decline[data-dodging] .decline-face {
-  box-shadow: 0 .35rem .95rem #5d293229;
+.decline-face[data-layer="1"] {
+  background: #f3d7da;
+  box-shadow: inset 0 0 0 3px #f3d7da, inset 0 0 0 4px #c9949d;
+}
+.decline-face[data-layer="2"] {
+  background: #ecc0c8;
+  border-color: #ac6a7a;
+  box-shadow: 0 .3rem .85rem #5d293226;
+  font-size: .875rem;
+}
+.decline-shell {
+  position: fixed;
+  z-index: 1;
+  font-weight: 700;
 }
