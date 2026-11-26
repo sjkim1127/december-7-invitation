@@ -94,7 +94,6 @@ h1 strong { color: var(--wine); font-weight: inherit; }
 a.button { display: inline-flex; align-items: center; text-decoration: none; }
 .button:focus-visible { outline: 2px solid var(--wine-dark); outline-offset: 3px; }
 .response p { margin: 0 0 .65rem; }
-.response-title { font-size: 1.2rem; font-weight: 750; color: var(--wine-dark); }
 .response .choices { margin-top: .9rem; }
 .postcard {
   position: relative;

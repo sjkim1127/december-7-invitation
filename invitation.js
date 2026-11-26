@@ -7,7 +7,7 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let dodgeAnimation;
 const escapeSlot = document.querySelector('.escape-slot');
 const response = document.querySelector('#response');
-const title = document.querySelector('#response-title');
+const addToCalendar = document.querySelector('#add-to-calendar');
 const hearts = document.querySelector('#hearts');
 
 function celebrate() {
@@ -103,7 +103,7 @@ window.visualViewport?.addEventListener('scroll', resetDecline, { passive: true 
 accept.addEventListener('click', () => {
   choices.hidden = true;
   response.hidden = false;
-  title.focus({ preventScroll: true });
+  addToCalendar.focus({ preventScroll: true });
   celebrate();
 });
 
